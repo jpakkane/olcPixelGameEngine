@@ -4,9 +4,14 @@ project('olcPixelGameEngine', 'cpp',
                       'buildtype=debugoptimized'])
 
 pge_inc = include_directories('.')
-external_deps = [dependency('threads')]]
+external_deps = [dependency('threads')]
 cpp = meson.get_compiler('cpp')
-if host_machine.system() != 'windows'
+if host_machine.system() == 'windows'
+elif host_machine.system() == 'darwin'
+  external_deps += [dependency('libpng'),
+                    dependency('appleframeworks', modules: ['OpenGL', 'GLUT']),
+                    ]
+else
   external_deps += [dependency('libpng'),
                     dependency('gl'),
                     dependency('x11'),
